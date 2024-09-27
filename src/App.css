@@ -10,10 +10,10 @@ body,
     height: 100%;
     margin: 0;
     padding: 0;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
-.App {
+.app {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -36,18 +36,58 @@ body,
     padding: 0;
 }
 
+#player-container {
+    position: relative;
+    z-index: 10;
+    background: linear-gradient(0deg, #000, #272727);
+}
+
+#player-container::before,
+#player-container::after {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    background: linear-gradient(45deg, #fb0094, #0000ff, #00ff00, #ffff00, #ff0000, #fb0094,
+            #0000ff, #00ff00, #ffff00, #ff0000);
+    background-size: 400%;
+    width: calc(100% + 4px);
+    height: calc(100% + 2px);
+    z-index: -1;
+    animation: steam 20s linear infinite;
+    border-radius: 10px;
+}
+
+@keyframes steam {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+#player-container:after {
+    filter: blur(5px);
+}
+
 .subtitle-container {
     display: block;
     max-width: 80%;
     margin: 0 auto;
     position: absolute;
     height: 4rem;
-    bottom: 100px;
+    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
     width: 80%;
     text-align: center;
-    color: white;
+    color: #fc6;
     font-size: 2em;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 5px;

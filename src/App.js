@@ -30,28 +30,28 @@ function App() {
   return (
     <>
       <div className="app">
-        {
-          <FileInput
-            setVideoFile={setVideoFile}
-            setSubtitles={setSubtitles}
-            setSubFile={setSubFile}
-            setVideoType={setVideoType}
-            setVideoName={setVideoName}
-          />
-        }
+        <FileInput
+          setVideoFile={setVideoFile}
+          setSubtitles={setSubtitles}
+          setSubFile={setSubFile}
+          setVideoType={setVideoType}
+          setVideoName={setVideoName}
+        />
         {videoFile && subFile && (
-          <MediaPlayer
-            title={videoName}
-            src={{ src: videoFile, type: videoType }}
-            onTimeUpdate={handleTimeUpdate}
-          >
-            <MediaProvider>
-              {currentSubtitle && (
-                <SubtitleDisplay currentSubtitle={currentSubtitle} />
-              )}
-            </MediaProvider>
-            <DefaultVideoLayout icons={defaultLayoutIcons} />
-          </MediaPlayer>
+          <div id="player-container">
+            <MediaPlayer
+              title={videoName}
+              src={{ src: videoFile, type: videoType }}
+              onTimeUpdate={handleTimeUpdate}
+            >
+              <MediaProvider>
+                {currentSubtitle && (
+                  <SubtitleDisplay currentSubtitle={currentSubtitle} />
+                )}
+              </MediaProvider>
+              <DefaultVideoLayout icons={defaultLayoutIcons} />
+            </MediaPlayer>
+          </div>
         )}
       </div>
     </>
