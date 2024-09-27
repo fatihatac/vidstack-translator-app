@@ -1,23 +1,18 @@
 import React from "react";
 
-function SubtitleDisplay({ currentSubtitle, setIsPlaying }) {
-  // function removeHtmlTags(text) {
-  //   console.log(text);
-
-  //   console.log(text.replace(/<[^>]*>/g, ""));
-
-  //   return text.replace(/<[^>]*>/g, "");
-  // }
-
+function SubtitleDisplay({
+  currentSubtitle,
+  isControlsVisible,
+  setIsPlaying,
+  onMouseEnter,
+}) {
   function getWordsFromSubtitle(subtitle) {
     if (!subtitle) return [];
     // const cleanedSubtitle = removeHtmlTags(subtitle);
     const wordsAndPunctuation = subtitle
-      .replace(/\n/g, " ")
+      .replace(/<[^>]*>|\n/g, " ")
       .split(/(\s+|[.,!?;:])/)
       .filter((word) => word.trim() !== "");
-
-    console.log(wordsAndPunctuation);
 
     return wordsAndPunctuation;
   }
@@ -30,7 +25,7 @@ function SubtitleDisplay({ currentSubtitle, setIsPlaying }) {
   }
 
   function handleMouseEnter(event) {
-    console.log(event.target.innerText);
+    // console.log(event.target.innerText);
   }
 
   function handleMouseLeave() {
@@ -38,7 +33,13 @@ function SubtitleDisplay({ currentSubtitle, setIsPlaying }) {
   }
 
   return (
-    <div className="subtitle-container">
+    <div
+      className="subtitle-container"
+      style={{
+        bottom: isControlsVisible ? "75px" : "10px",
+        transition: "0.3s ease-in",
+      }}
+    >
       {getWordsFromSubtitle(currentSubtitle).map((word, index) => (
         <span key={index}>
           {!isPunctuation(word) ? (

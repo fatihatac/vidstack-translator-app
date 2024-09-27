@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./App.css";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
-
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
   defaultLayoutIcons,
@@ -18,6 +17,7 @@ function App() {
   const [subFile, setSubFile] = useState(null);
   const [currentSubtitle, setCurrentSubtitle] = useState("");
   const [subtitles, setSubtitles] = useState([]);
+  const [isControlsVisible, setControlsVisible] = useState(false);
 
   const handleTimeUpdate = (event) => {
     const currentSub = subtitles.find(
@@ -27,6 +27,12 @@ function App() {
     );
     setCurrentSubtitle(currentSub ? currentSub.text : "");
   };
+
+  function handleControlsChange(event) {
+    setControlsVisible(event);
+    console.log(isControlsVisible);
+  }
+
   return (
     <>
       <div className="app">
@@ -42,11 +48,16 @@ function App() {
             <MediaPlayer
               title={videoName}
               src={{ src: videoFile, type: videoType }}
+              muted={true}
               onTimeUpdate={handleTimeUpdate}
+              onControlsChange={handleControlsChange}
             >
               <MediaProvider>
                 {currentSubtitle && (
-                  <SubtitleDisplay currentSubtitle={currentSubtitle} />
+                  <SubtitleDisplay
+                    currentSubtitle={currentSubtitle}
+                    isControlsVisible={isControlsVisible}
+                  />
                 )}
               </MediaProvider>
               <DefaultVideoLayout icons={defaultLayoutIcons} />

@@ -80,9 +80,9 @@ body,
     display: block;
     max-width: 80%;
     margin: 0 auto;
+    margin-bottom: 0px;
     position: absolute;
     height: 4rem;
-    bottom: 75px;
     left: 50%;
     transform: translateX(-50%);
     width: 80%;
@@ -105,5 +105,5 @@ body,
 }
 
 .word:hover {
-    background-color: darkblue;
+    background-color: rgba(96, 132, 185, 0.83);
 }
