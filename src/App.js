@@ -9,11 +9,12 @@ import {
 } from "@vidstack/react/player/layouts/default";
 import FileInput from "./components/FileInput";
 import SubtitleDisplay from "./components/SubtitleDisplay";
+import CloseButton from "./components/CloseButton";
 
 function App() {
-  const [videoFile, setVideoFile] = useState("");
-  const [videoType, setVideoType] = useState("");
-  const [videoName, setVideoName] = useState("");
+  const [videoFile, setVideoFile] = useState(null);
+  const [videoType, setVideoType] = useState(null);
+  const [videoName, setVideoName] = useState(null);
   const [subFile, setSubFile] = useState(null);
   const [currentSubtitle, setCurrentSubtitle] = useState("");
   const [subtitles, setSubtitles] = useState([]);
@@ -30,7 +31,15 @@ function App() {
 
   function handleControlsChange(event) {
     setControlsVisible(event);
-    console.log(isControlsVisible);
+  }
+
+  function handleClick() {
+    setVideoFile(null);
+    setVideoName(null);
+    setSubFile(null);
+    setVideoType(null);
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => (input.value = ""));
   }
 
   return (
@@ -52,6 +61,7 @@ function App() {
               onTimeUpdate={handleTimeUpdate}
               onControlsChange={handleControlsChange}
             >
+              <CloseButton onClick={handleClick} />
               <MediaProvider>
                 {currentSubtitle && (
                   <SubtitleDisplay

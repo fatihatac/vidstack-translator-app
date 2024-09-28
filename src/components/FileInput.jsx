@@ -1,6 +1,7 @@
 import React from "react";
 import Input from "./Input";
 import srtParser2 from "srt-parser-2";
+import { Stack } from "@mui/material";
 
 function FileInput({
   setSubFile,
@@ -42,18 +43,24 @@ function FileInput({
   return (
     <div className="controls-container">
       <div className="controls">
-        <Input
-          type="file"
-          fileType="video"
-          accept="video/*"
-          onChange={handleVideoFileChange}
-        />
-        <Input
-          type="file"
-          fileType="sub"
-          accept=".srt"
-          onChange={handleSubtitleFileUpload}
-        />
+        <Stack spacing={2}>
+          <Stack direction="row" alignItems="center">
+            <Input
+              type="file"
+              fileType="video"
+              accept="video/*"
+              onChange={handleVideoFileChange}
+            />
+          </Stack>
+          <Stack direction="row" alignItems="center">
+            <Input
+              type="file"
+              fileType="sub"
+              accept=".srt"
+              onChange={handleSubtitleFileUpload}
+            />
+          </Stack>
+        </Stack>
       </div>
     </div>
   );
