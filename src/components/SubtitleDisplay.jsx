@@ -11,13 +11,15 @@ function SubtitleDisplay({
     if (!subtitle) return [];
     const wordsAndPunctuation = subtitle
       .replace(/<[^>]*>|\n/g, " ")
-      .split(/(\s+|[.,!?;:])/)
+      // .split(/(\s+|[.,!?;:])/)
+      .split(/(\s+|[.,!?;:()\\[\]])/)
       .filter((word) => word.trim() !== "");
 
     return wordsAndPunctuation;
   }
   function isPunctuation(word) {
-    return /[.,!?;:]/.test(word); // Noktalama işareti kontrolü
+    // return /[.,!?;:]/.test(word); // Noktalama işareti kontrolü
+    return /[.,!?;:()[\]]/.test(word);
   }
 
   function handleClick(event) {

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import "./App.css";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
@@ -25,6 +25,8 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
+  const playerRef = useRef(null);
+
   const handleTimeUpdate = (event) => {
     const currentSub = subtitles.find(
       (subtitle) =>
@@ -33,9 +35,18 @@ function App() {
     );
     setCurrentSubtitle(currentSub ? currentSub.text : "");
   };
-
   function handleControlsChange(event) {
     setControlsVisible(event);
+    // const controlsContainer = document.querySelector(".vds-controls");
+    // if (!isPlaying && controlsContainer) {
+    //   // Video duraklatıldıysa kontrolleri her zaman görünür yap
+    //   controlsContainer.style.opacity = "1";
+    //   controlsContainer.style.visibility = "visible";
+    // } else if (controlsContainer) {
+    //   // Video oynuyorsa varsayılan davranışa geri dön
+    //   controlsContainer.style.opacity = "";
+    //   controlsContainer.style.visibility = "";
+    // }
   }
   function handleCloseClick() {
     setVideoFile(null);
@@ -50,11 +61,9 @@ function App() {
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => (input.value = ""));
   }
-
   function handlePlayClick() {
     setPlayButtonClicked(true);
   }
-
   function handleOnPlay() {
     setIsPlaying(true);
   }
@@ -84,6 +93,7 @@ function App() {
         {videoFile && subFile && isPlayButtonClicked && (
           <div id="player-container">
             <MediaPlayer
+              ref={playerRef}
               title={videoName}
               src={{ src: videoFile, type: videoType }}
               muted={true}
@@ -92,6 +102,7 @@ function App() {
               onPlay={handleOnPlay}
               onPause={handleOnPause}
               paused={isPaused}
+              controlsDelay={isPaused ? 1000000 : 2500}
             >
               <CloseButton onClick={handleCloseClick} />
               <MediaProvider>
@@ -101,6 +112,7 @@ function App() {
                     isControlsVisible={isControlsVisible}
                     isPlaying={isPlaying}
                     setIsPaused={setIsPaused}
+                    setControlsVisible={setControlsVisible}
                   />
                 )}
               </MediaProvider>
