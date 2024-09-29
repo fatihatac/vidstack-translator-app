@@ -1,9 +1,8 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-
-function Input({ type, fileType, accept, onChange }) {
+import FileUploadIcon from "@mui/icons-material/FileUpload";
+function Input({ type, fileType, accept, onChange, endIcon, fileName }) {
   const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
     clipPath: "inset(50%)",
@@ -19,15 +18,22 @@ function Input({ type, fileType, accept, onChange }) {
     <>
       <Button
         component="label"
+        size=""
         role={undefined}
         variant="contained"
         tabIndex={-1}
         sx={{ margin: "1rem" }}
-        startIcon={<CloudUploadIcon />}
+        startIcon={<FileUploadIcon fontSize="large" />}
+        endIcon={endIcon}
       >
-        Upload files
-        <VisuallyHiddenInput type={type} onChange={onChange} multiple />
+        <VisuallyHiddenInput
+          type={type}
+          accept={accept}
+          onChange={onChange}
+          multiple
+        />
       </Button>
+      <div className="file-name">{fileName ? fileName : "No file chosen"}</div>
       {/* <Button component="label" variant="outlined" sx={{ margin: "1rem" }}>
         Upload {fileType}
         <input type={type} accept={accept} onChange={onChange} hidden />

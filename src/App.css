@@ -37,6 +37,13 @@ body,
     padding: 0;
 }
 
+.controls {
+    padding: 2rem;
+    border: 2px solid;
+    border-image: conic-gradient(red, yellow, lime, aqua, blue, magenta, red) 1;
+    background-color: black;
+}
+
 #player-container {
     position: relative;
     z-index: 10;
@@ -120,4 +127,14 @@ body,
     z-index: 99;
     top: 2em;
     right: 2em;
+}
+
+#play-button {
+    padding: 0;
+    left: 2em;
+}
+
+.file-name {
+    width: 120px;
+    color: white;
 }

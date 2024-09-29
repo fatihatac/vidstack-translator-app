@@ -1,16 +1,18 @@
 import React from "react";
-import BaseIconButton from "./BaseIconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import IconButton from "@mui/joy/IconButton";
 
 function CloseButton({ onClick }) {
   return (
-    <BaseIconButton
+    <IconButton
       id="close-button"
-      text={<CloseIcon fontSize="large" />}
       variant="solid"
       color="danger"
       onClick={onClick}
-    />
+      size="lg"
+    >
+      <CloseIcon fontSize="large" />
+    </IconButton>
   );
 }
 
