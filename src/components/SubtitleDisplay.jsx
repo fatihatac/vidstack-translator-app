@@ -3,12 +3,12 @@ import React from "react";
 function SubtitleDisplay({
   currentSubtitle,
   isControlsVisible,
-  setIsPlaying,
-  onMouseEnter,
+  isPlaying,
+  setIsPaused,
+  setControlsVisible,
 }) {
   function getWordsFromSubtitle(subtitle) {
     if (!subtitle) return [];
-    // const cleanedSubtitle = removeHtmlTags(subtitle);
     const wordsAndPunctuation = subtitle
       .replace(/<[^>]*>|\n/g, " ")
       .split(/(\s+|[.,!?;:])/)
@@ -26,10 +26,17 @@ function SubtitleDisplay({
 
   function handleMouseEnter(event) {
     // console.log(event.target.innerText);
+    if (isPlaying) {
+      console.log("durdur");
+      setIsPaused(true);
+    }
   }
 
   function handleMouseLeave() {
-    // console.log("leaved");
+    if (!isPlaying) {
+      console.log("devam et");
+      setIsPaused(false);
+    }
   }
 
   return (
@@ -39,16 +46,13 @@ function SubtitleDisplay({
         bottom: isControlsVisible ? "75px" : "10px",
         transition: "0.3s ease-in",
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {getWordsFromSubtitle(currentSubtitle).map((word, index) => (
         <span key={index}>
           {!isPunctuation(word) ? (
-            <span
-              onClick={handleClick}
-              className="word"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-            >
+            <span onClick={handleClick} className="word">
               {word}
             </span>
           ) : (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
@@ -22,7 +22,8 @@ function App() {
   const [subtitles, setSubtitles] = useState([]);
   const [isControlsVisible, setControlsVisible] = useState(false);
   const [isPlayButtonClicked, setPlayButtonClicked] = useState(false);
-  const [isPlayerLoaded, setIsPlayerLoaded] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
   const handleTimeUpdate = (event) => {
     const currentSub = subtitles.find(
@@ -36,15 +37,16 @@ function App() {
   function handleControlsChange(event) {
     setControlsVisible(event);
   }
-
   function handleCloseClick() {
     setVideoFile(null);
+    setVideoType(null);
     setVideoName(null);
     setSubFile(null);
-    setVideoType(null);
     setSubFileName(null);
+    setSubtitles([]);
+    setCurrentSubtitle(null);
     setPlayButtonClicked(false);
-    setIsPlayerLoaded(false);
+    setIsPlaying(false);
     const inputs = document.querySelectorAll("input");
     inputs.forEach((input) => (input.value = ""));
   }
@@ -52,6 +54,14 @@ function App() {
   function handlePlayClick() {
     setPlayButtonClicked(true);
   }
+
+  function handleOnPlay() {
+    setIsPlaying(true);
+  }
+  function handleOnPause() {
+    setIsPlaying(false);
+  }
+
   return (
     <>
       <div className="app">
@@ -73,26 +83,29 @@ function App() {
         </div>
         {videoFile && subFile && isPlayButtonClicked && (
           <div id="player-container">
-            {isPlayerLoaded && (
-              <MediaPlayer
-                title={videoName}
-                src={{ src: videoFile, type: videoType }}
-                muted={true}
-                onTimeUpdate={handleTimeUpdate}
-                onControlsChange={handleControlsChange}
-              >
-                <CloseButton onClick={handleCloseClick} />
-                <MediaProvider>
-                  {currentSubtitle && (
-                    <SubtitleDisplay
-                      currentSubtitle={currentSubtitle}
-                      isControlsVisible={isControlsVisible}
-                    />
-                  )}
-                </MediaProvider>
-                <DefaultVideoLayout icons={defaultLayoutIcons} />
-              </MediaPlayer>
-            )}
+            <MediaPlayer
+              title={videoName}
+              src={{ src: videoFile, type: videoType }}
+              muted={true}
+              onTimeUpdate={handleTimeUpdate}
+              onControlsChange={handleControlsChange}
+              onPlay={handleOnPlay}
+              onPause={handleOnPause}
+              paused={isPaused}
+            >
+              <CloseButton onClick={handleCloseClick} />
+              <MediaProvider>
+                {currentSubtitle && (
+                  <SubtitleDisplay
+                    currentSubtitle={currentSubtitle}
+                    isControlsVisible={isControlsVisible}
+                    isPlaying={isPlaying}
+                    setIsPaused={setIsPaused}
+                  />
+                )}
+              </MediaProvider>
+              <DefaultVideoLayout icons={defaultLayoutIcons} />
+            </MediaPlayer>
           </div>
         )}
       </div>
