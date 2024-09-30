@@ -57,6 +57,7 @@ function FileInput({
             onChange={handleVideoFileChange}
             endIcon={<VideoFileIcon />}
             fileName={videoName}
+            title="Upload a Video File"
           />
         </Stack>
         <Stack direction="row" alignItems="center">
@@ -67,6 +68,7 @@ function FileInput({
             onChange={handleSubtitleFileUpload}
             endIcon={<SubtitlesIcon />}
             fileName={subFileName}
+            title="Upload a Subtitle File"
           />
         </Stack>
       </Stack>

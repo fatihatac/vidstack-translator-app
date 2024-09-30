@@ -48,17 +48,18 @@ function App() {
     setControlsVisible(event);
   }
   function handleCloseClick() {
-    setVideoFile(null);
-    setVideoType(null);
-    setVideoName(null);
-    setSubFile(null);
-    setSubFileName(null);
-    setSubtitles([]);
-    setCurrentSubtitle(null);
-    setPlayButtonClicked(false);
-    setIsPlaying(false);
-    const inputs = document.querySelectorAll("input");
-    inputs.forEach((input) => (input.value = ""));
+    // setVideoFile(null);
+    // setVideoType(null);
+    // setVideoName(null);
+    // setSubFile(null);
+    // setSubFileName(null);
+    // setSubtitles([]);
+    // setCurrentSubtitle(null);
+    // setPlayButtonClicked(false);
+    // setIsPlaying(false);
+    // const inputs = document.querySelectorAll("input");
+    // inputs.forEach((input) => (input.value = ""));
+    window.location.reload();
   }
   function handlePlayClick() {
     setPlayButtonClicked(true);
