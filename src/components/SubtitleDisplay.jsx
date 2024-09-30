@@ -5,7 +5,6 @@ function SubtitleDisplay({
   isControlsVisible,
   isPlaying,
   setIsPaused,
-  setControlsVisible,
 }) {
   function getWordsFromSubtitle(subtitle) {
     if (!subtitle) return [];
@@ -28,6 +27,7 @@ function SubtitleDisplay({
 
   function handleMouseEnter(event) {
     // console.log(event.target.innerText);
+
     if (isPlaying) {
       console.log("durdur");
       setIsPaused(true);

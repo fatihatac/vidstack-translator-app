@@ -142,3 +142,71 @@ body,
 .vds-controls {
     background-image: none;
 }
+
+
+.word-card {
+    background-color: #222121;
+    color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    width: 374px;
+    height: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    
+}
+
+.content {
+    padding: 0 0.5em;
+}
+
+.word-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-word {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.add-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.translation-section {
+    margin-top: 12px;
+}
+
+.primary-translation {
+    color: #fdc666;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.meanings {
+    margin-top: 12px;
+}
+
+.meaning {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.definition {
+    font-size: 16px;
+    color: #7e7d7d;
+}
+
+.type {
+    color: #888;
+    font-size: 14px;
+}

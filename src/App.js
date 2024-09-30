@@ -12,6 +12,8 @@ import SubtitleDisplay from "./components/SubtitleDisplay";
 import CloseButton from "./components/CloseButton";
 import PlayButton from "./components/PlayButton";
 
+
+
 function App() {
   const [videoFile, setVideoFile] = useState(null);
   const [videoType, setVideoType] = useState(null);
