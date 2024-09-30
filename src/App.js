@@ -1,8 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import "@vidstack/react/player/styles/default/theme.css";
 import "@vidstack/react/player/styles/default/layouts/video.css";
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import { MediaPlayer, MediaProvider, useMediaRemote } from "@vidstack/react";
 import {
   defaultLayoutIcons,
   DefaultVideoLayout,
@@ -26,6 +26,15 @@ function App() {
   const [isPaused, setIsPaused] = useState(false);
 
   const playerRef = useRef(null);
+  const remote = useMediaRemote(playerRef);
+
+  useEffect(() => {
+    if (!isPlaying) {
+      remote.pauseControls();
+    } else {
+      remote.resumeControls();
+    }
+  });
 
   const handleTimeUpdate = (event) => {
     const currentSub = subtitles.find(
@@ -37,16 +46,6 @@ function App() {
   };
   function handleControlsChange(event) {
     setControlsVisible(event);
-    // const controlsContainer = document.querySelector(".vds-controls");
-    // if (!isPlaying && controlsContainer) {
-    //   // Video duraklatıldıysa kontrolleri her zaman görünür yap
-    //   controlsContainer.style.opacity = "1";
-    //   controlsContainer.style.visibility = "visible";
-    // } else if (controlsContainer) {
-    //   // Video oynuyorsa varsayılan davranışa geri dön
-    //   controlsContainer.style.opacity = "";
-    //   controlsContainer.style.visibility = "";
-    // }
   }
   function handleCloseClick() {
     setVideoFile(null);
@@ -102,7 +101,7 @@ function App() {
               onPlay={handleOnPlay}
               onPause={handleOnPause}
               paused={isPaused}
-              controlsDelay={isPaused ? 1000000 : 2500}
+              // controlsDelay={isPaused ? 1000000 : 2500}
             >
               <CloseButton onClick={handleCloseClick} />
               <MediaProvider>
