@@ -1,12 +1,28 @@
 import React from "react";
 
-function Card() {
+function WordCard({ word, setIsCardHovered }) {
+  function onMouseEnter() {
+    setIsCardHovered(true);
+  }
+
+  function onMouseLeave() {
+    setIsCardHovered(false);
+  }
+  function handleClick() {
+    console.log("clicked");
+  }
   return (
-    <div className="word-card">
+    <div
+      className="word-card"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div className="content">
         <div className="word-header">
-          <span className="card-word">when</span>
-          <button className="add-button">+</button>
+          <span className="card-word">{word}</span>
+          <button className="add-button" onClick={handleClick}>
+            +
+          </button>
         </div>
         <div className="translation-section">
           <div className="primary-translation">ne zaman</div>
@@ -34,4 +50,4 @@ function Card() {
   );
 }
 
-export default Card;
+export default WordCard;

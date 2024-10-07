@@ -12,8 +12,6 @@ import SubtitleDisplay from "./components/SubtitleDisplay";
 import CloseButton from "./components/CloseButton";
 import PlayButton from "./components/PlayButton";
 
-
-
 function App() {
   const [videoFile, setVideoFile] = useState(null);
   const [videoType, setVideoType] = useState(null);
@@ -29,14 +27,6 @@ function App() {
 
   const playerRef = useRef(null);
   const remote = useMediaRemote(playerRef);
-
-  useEffect(() => {
-    if (!isPlaying) {
-      remote.pauseControls();
-    } else {
-      remote.resumeControls();
-    }
-  });
 
   const handleTimeUpdate = (event) => {
     const currentSub = subtitles.find(
@@ -66,64 +56,67 @@ function App() {
   function handlePlayClick() {
     setPlayButtonClicked(true);
   }
-  function handleOnPlay() {
+  function handleOnPlay(event) {
     setIsPlaying(true);
+    remote.resumeControls(event);
   }
-  function handleOnPause() {
+  function handleOnPause(event) {
     setIsPlaying(false);
+    remote.pauseControls(event);
   }
 
   return (
-    <>
-      <div className="app">
-        <div className="controls-container">
-          <FileInput
-            setVideoFile={setVideoFile}
-            setSubtitles={setSubtitles}
-            setSubFile={setSubFile}
-            setVideoType={setVideoType}
-            setVideoName={setVideoName}
-            setSubFileName={setSubFileName}
-            videoName={videoName}
-            subFileName={subFileName}
-          />
-          <PlayButton
-            onClick={handlePlayClick}
-            disabled={!videoFile || !subFile}
-          />
-        </div>
-        {videoFile && subFile && isPlayButtonClicked && (
-          <div id="player-container">
-            <MediaPlayer
-              ref={playerRef}
-              title={videoName}
-              src={{ src: videoFile, type: videoType }}
-              muted={true}
-              onTimeUpdate={handleTimeUpdate}
-              onControlsChange={handleControlsChange}
-              onPlay={handleOnPlay}
-              onPause={handleOnPause}
-              paused={isPaused}
-              // controlsDelay={isPaused ? 1000000 : 2500}
-            >
-              <CloseButton onClick={handleCloseClick} />
-              <MediaProvider>
-                {currentSubtitle && (
-                  <SubtitleDisplay
-                    currentSubtitle={currentSubtitle}
-                    isControlsVisible={isControlsVisible}
-                    isPlaying={isPlaying}
-                    setIsPaused={setIsPaused}
-                    setControlsVisible={setControlsVisible}
-                  />
-                )}
-              </MediaProvider>
-              <DefaultVideoLayout icons={defaultLayoutIcons} />
-            </MediaPlayer>
-          </div>
-        )}
+    <div className="app">
+      <div className="controls-container">
+        <FileInput
+          setVideoFile={setVideoFile}
+          setSubtitles={setSubtitles}
+          setSubFile={setSubFile}
+          setVideoType={setVideoType}
+          setVideoName={setVideoName}
+          setSubFileName={setSubFileName}
+          videoName={videoName}
+          subFileName={subFileName}
+        />
+        <PlayButton
+          onClick={handlePlayClick}
+          disabled={!videoFile || !subFile}
+        />
       </div>
-    </>
+      {videoFile && subFile && isPlayButtonClicked && (
+        <div id="player-container">
+          <MediaPlayer
+            ref={playerRef}
+            title={videoName}
+            src={{
+              src: videoFile,
+              type: videoType,
+            }}
+            muted={true}
+            onTimeUpdate={handleTimeUpdate}
+            onControlsChange={handleControlsChange}
+            onPlay={handleOnPlay}
+            onPause={handleOnPause}
+            paused={isPaused}
+            className="video-player"
+          >
+            <CloseButton onClick={handleCloseClick} />
+            <MediaProvider>
+              {currentSubtitle && (
+                <SubtitleDisplay
+                  currentSubtitle={currentSubtitle}
+                  isControlsVisible={isControlsVisible}
+                  isPlaying={isPlaying}
+                  setIsPaused={setIsPaused}
+                  setControlsVisible={setControlsVisible}
+                />
+              )}
+            </MediaProvider>
+            <DefaultVideoLayout icons={defaultLayoutIcons} />
+          </MediaPlayer>
+        </div>
+      )}
+    </div>
   );
 }
 
