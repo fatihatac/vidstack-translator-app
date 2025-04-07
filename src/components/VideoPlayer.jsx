@@ -20,10 +20,7 @@ function VideoPlayer() {
   const [subFileName, setSubFileName] = useState(null);
   const [currentSubtitle, setCurrentSubtitle] = useState(null);
   const [subtitles, setSubtitles] = useState([]);
-  const [isControlsVisible, setControlsVisible] = useState(false);
   const [isPlayButtonClicked, setPlayButtonClicked] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
 
   const playerRef = useRef(null);
   const remote = useMediaRemote(playerRef);
@@ -36,9 +33,6 @@ function VideoPlayer() {
     );
     setCurrentSubtitle(currentSub ? currentSub.text : "");
   };
-  function handleControlsChange(event) {
-    setControlsVisible(event);
-  }
   function handleCloseClick() {
     // setVideoFile(null);
     // setVideoType(null);
@@ -56,13 +50,13 @@ function VideoPlayer() {
   function handlePlayClick() {
     setPlayButtonClicked(true);
   }
-  function handleOnPlay(event) {
-    setIsPlaying(true);
-    remote.resumeControls(event);
+
+  function handleOnPlay() {
+    remote.resumeControls();
   }
-  function handleOnPause(event) {
-    setIsPlaying(false);
-    remote.pauseControls(event);
+
+  function handleOnPause() {
+    remote.pauseControls();
   }
 
   return (
@@ -87,28 +81,22 @@ function VideoPlayer() {
         <div id="player-container">
           <MediaPlayer
             ref={playerRef}
+            className="video-player"
             title={videoName}
             src={{
               src: videoFile,
               type: videoType,
             }}
-            muted={true}
             onTimeUpdate={handleTimeUpdate}
-            onControlsChange={handleControlsChange}
             onPlay={handleOnPlay}
             onPause={handleOnPause}
-            paused={isPaused}
-            className="video-player"
           >
             <CloseButton onClick={handleCloseClick} />
             <MediaProvider>
               {currentSubtitle && (
                 <SubtitleDisplay
                   currentSubtitle={currentSubtitle}
-                  isControlsVisible={isControlsVisible}
-                  isPlaying={isPlaying}
-                  setIsPaused={setIsPaused}
-                  setControlsVisible={setControlsVisible}
+                  remote={remote}
                 />
               )}
             </MediaProvider>

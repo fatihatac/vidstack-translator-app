@@ -37,7 +37,13 @@ function Input({ type, title, accept, onChange, endIcon, fileName }) {
           />
         </Button>
       </Tooltip>
-      <div className="file-name">{fileName ? fileName : "No file chosen"}</div>
+      <div className="file-name">
+        {fileName
+          ? fileName.length > 20
+            ? `${fileName.slice(0, 15)}...`
+            : fileName
+          : "No file chosen"}
+      </div>
       {/* <Button component="label" variant="outlined" sx={{ margin: "1rem" }}>
         Upload {fileType}
         <input type={type} accept={accept} onChange={onChange} hidden />

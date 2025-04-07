@@ -1,86 +1,58 @@
-import React, { useState } from "react";
-import WordCard from "./WordCard";
+import React from "react";
 
-function SubtitleDisplay({
-  currentSubtitle,
-  isControlsVisible,
-  isPlaying,
-  setIsPaused,
-}) {
-  const [hoveredWord, setHoveredWord] = useState(null);
-  const [isCardHovered, setIsCardHovered] = useState(null);
-
+function SubtitleDisplay({ currentSubtitle, remote }) {
   function getWordsFromSubtitle(subtitle) {
     if (!subtitle) return [];
     const wordsAndPunctuation = subtitle
       .replace(/<[^>]*>|\n/g, " ")
-      // .split(/(\s+|[.,!?;:])/)
-      // .split(/(\s+|[.,!?;:()\\[\]])/)
       .split(/(\s+|[.,!?;:()[\]-])/)
       .filter((word) => word.trim() !== "");
 
     return wordsAndPunctuation;
   }
   function isPunctuation(word) {
-    // return /[.,!?;:]/.test(word); // Noktalama işareti kontrolü
     return /[.,!?;:()[\]-]/.test(word);
   }
-
-  function handleMouseEnter(event) {
-    // console.log(event.target.innerText);
-
-    if (isPlaying) {
-      console.log("durdur");
-      setIsPaused(true);
-    }
+  function Word({ word }) {
+    return isPunctuation(word) ? (
+      <>{word}</>
+    ) : (
+      <span className="word">{word}</span>
+    );
   }
 
-  function handleMouseLeave() {
-    if (!isPlaying) {
-      console.log("devam et");
-      setIsPaused(false);
-    }
+  function handleContainerMouseEnter(event) {
+    remote.pause();
+  }
+
+  function handleContainerMouseLeave() {
+    remote.play();
   }
 
   function handleWordMouseEnter(event) {
-    setHoveredWord(event.target.innerText);
+    console.log(event.target.innerText);
   }
-
   function handleWordMouseLeave() {
-    if (!isCardHovered) {
-      setHoveredWord(null);
-    }
+    console.log("Word left");
   }
 
   return (
     <div className="vds-captions">
-      <div
-        className="subtitle-container"
-        style={{
-          bottom: isControlsVisible ? "75px" : "10px",
-          transition: "0.3s ease-in",
-        }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
+      <div className="subtitle-container">
         <div className="cues">
-          <span>
+          <span
+            className="subs"
+            onMouseEnter={handleContainerMouseEnter}
+            onMouseLeave={handleContainerMouseLeave}
+          >
             {getWordsFromSubtitle(currentSubtitle).map((word, index) => (
-              <span key={index} style={{ position: "relative" }}>
-                {!isPunctuation(word) ? (
-                  <span
-                    className="word"
-                    onMouseEnter={handleWordMouseEnter}
-                    onMouseLeave={handleWordMouseLeave}
-                  >
-                    {word}
-                  </span>
-                ) : (
-                  word
-                )}
-                {hoveredWord && hoveredWord === word && (
-                  <WordCard word={word} setIsCardHovered={setIsCardHovered} />
-                )}
+              <span
+                key={index}
+                style={{ position: "relative" }}
+                onMouseEnter={handleWordMouseEnter}
+                onMouseLeave={handleWordMouseLeave}
+              >
+                <Word word={word} />
               </span>
             ))}
           </span>
